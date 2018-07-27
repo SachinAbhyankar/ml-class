@@ -10,7 +10,7 @@ from wandb.keras import WandbCallback
 # logging code
 run = wandb.init()
 config = run.config
-config.team_name = "default"
+config.team_name = "SachinAbhyankar"
 config.loss = "categorical_crossentropy"
 config.optimizer = "adam"
 config.epochs = 10
