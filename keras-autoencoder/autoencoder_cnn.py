@@ -26,7 +26,7 @@ model.add(UpSampling2D((2, 2)))
 model.add(Conv2D(1, (3, 3), activation='relu', padding='same'))
 model.add(Reshape((28,28)))
 
-model.compile(optimizer='adam', loss='mse')
+model.compile(optimizer='adadelta', loss='mse')
 
 model.summary()
 

@@ -1,5 +1,6 @@
 from keras.layers import Input, Dense, Flatten, Reshape
 from keras.models import Model, Sequential
+from keras.layers import Conv2DTranspose, UpSampling2D, Dense, Flatten, Dropout, Conv2D, Reshape, MaxPooling2D,Activation,BatchNormalization
 
 from keras.datasets import mnist
 from keras.callbacks import Callback
@@ -10,7 +11,7 @@ from wandb.keras import WandbCallback
 run = wandb.init()
 config = run.config
 
-config.encoding_dim = 32
+config.encoding_dim = 100
 config.epochs = 1000
 
 (x_train, _), (x_test, _) = mnist.load_data()
@@ -19,9 +20,21 @@ x_train = x_train.astype('float32') / 255.
 x_test = x_test.astype('float32') / 255.
 
 model = Sequential()
-model.add(Flatten(input_shape=(28,28)))
-model.add(Dense(config.encoding_dim, activation='relu'))
-model.add(Dense(28*28, activation='sigmoid'))
+model.add(Reshape((28,28,1),input_shape=(28,28)))
+#model.add(Dropout(0.5))
+model.add(Conv2D(16, (3,3),padding="same",activation='relu'))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Conv2D(32, (3,3),padding="same",activation='relu'))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Flatten())
+model.add(Dense(10, activation='relu'))
+model.add(Dense(7*7, activation='relu'))
+model.add(Reshape((7, 7, 1)))
+model.add(Conv2D(32, (3, 3), padding='same',activation='relu'))
+model.add(UpSampling2D())
+model.add(Conv2D(16, (3, 3), padding='same',activation='relu'))
+model.add(UpSampling2D())
+model.add(Conv2D(1, (3, 3), padding='same',activation='relu'))
 model.add(Reshape((28,28)))
 model.compile(optimizer='adam', loss='mse')
 

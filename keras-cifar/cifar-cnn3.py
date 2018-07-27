@@ -89,7 +89,19 @@ x_test /= 255
 
 
 datagen = ImageDataGenerator(
-        width_shift_range=0.1)
+        featurewise_center=False,
+        samplewise_center=False,
+        samplewise_std_normalization=False,
+        zca_whitening=False,
+        rotation_range=30,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        rescale=1./255,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        vertical_flip=False,
+        fill_mode='nearest')
 
 
 datagen.fit(x_train)

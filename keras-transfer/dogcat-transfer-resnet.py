@@ -38,6 +38,7 @@ main_out = Dense(512, activation='relu', name='fcc_0')(main_out)
 main_out = Dense(1, activation='softmax', name='class_id')(main_out)
 
 model = Model(input=inp, output=main_out)
+model._is_graph_network = False
 
 
 # compile the model with a SGD/momentum optimizer
